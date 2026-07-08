@@ -41,11 +41,20 @@ st.divider()
 
 st.subheader("📋 Suas Tarefas")
 
-df_tarefa = pd.read_sql_query("SELECT id, nome, status FROM tarefas",conexao) #lê oq eu peço na query e cria uma tabela
+df_tarefa = pd.read_sql_query("SELECT id, nome, status FROM tarefas WHERE status = 'Pendente'",conexao) #lê oq eu peço na query e cria uma tabela
 if df_tarefa.empty:
     st.info("Nenhuma tarefa cadastrada ainda. Adicione uma acima!")
 else: 
     st.dataframe(df_tarefa, hide_index=True, use_container_width=True)
+st.divider()
+
+with st.expander("✅ Tarefas concluidas"):
+    st.subheader("✅ Tarefas concluidas")
+    df_tarefa = pd.read_sql_query("SELECT id, nome, status FROM tarefas WHERE status = 'Concluido'",conexao) #lê oq eu peço na query e cria uma tabela
+    if df_tarefa.empty:
+        st.info("Nenhuma tarefa cadastrada foi concluida até o momento!")
+    else: 
+        st.dataframe(df_tarefa, hide_index=True, use_container_width=True)
 
 st.divider()
 
